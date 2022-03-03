@@ -5,53 +5,58 @@ import java.util.Scanner;
 
 public class AccountFunctions extends CustomerAccountActions implements java.io.Serializable {
 	
+
 	//LOG IN METHOD
 	public void login() throws Exception {
-		//ACCESSES THE MAP
-		CustomerAccountActions b=OverallLogIn.map.get(name);
+		//CustomerAccountActions b=OverallLogIn.map.get(name); placing the get map object here dosen't grab anything
 
-		//SETS THE USERNAME AND PASSWORD TO A VARIABLE
-		String uName= b.name;
-		String uPassword= b.password;
-		
+		//CREATES AN EMPY VARIABLE TO ADD TO NEXT
+		String uName;
+		//String uPassword;
+	
 		
 		Scanner s=new Scanner(System.in);
 		
 		System.out.println("Enter Your User Name: ");
-		String userName=s.nextLine();
+		uName=s.nextLine();
+		
+		//ACCESSES THE MAP: and compare it to the users choice
+		CustomerAccountActions b=OverallLogIn.map.get(uName);
 		
 		System.out.println("Enter Your User Password: ");
 		String userPassword=s.nextLine();
 		
-
-		if (uName.equals(userName) && uPassword.equals(userPassword)) {
-			System.out.println("Welcome: Please select one of the following: Withdraw, "
-					+ "Deposit, Transer Funds, View Balance, View Personal Info, "
-					+ "View Account");
+		
+		if (b!=null && b.password.equals(userPassword)) {
+			System.out.println("Welcome: Please select the number for one of the following choices: 1-Withdraw, "
+					+ "2-Deposit, 3-Transer Funds, 4-View Balance, 5-View Personal Info, "
+					+ "6-View Account");
 			String accountAct=s.nextLine();
 			
 			switch (accountAct) {
-				case "Withdraw":
-					withdraw(userName);
+				case "1":
+					withdraw(uName);
 					break;
-				case "Deposit":
-					deposit(userName);
+				case "2":
+					deposit(uName);
 					break;
-				case "Transfer Funds":
-					transfer(userName);
+				case "3":
+					transfer(uName);
 					break;
-				case "View Balance":
-					viewBalance(userName);
+				case "4":
+					viewBalance(uName);
 					break;
-				case "View Personal Info":
-					viewPersonalInfo(userName);
+				case "5":
+					viewPersonalInfo(uName);
 					break;
-				case "View Account":
-					viewAccount(userName);
+				case "6":
+					viewAccount(uName);
 					break;
+				default:
+					throw new Exception ("Sorry that is not a valid choice");		
 			}
 		}else {
-			throw new Exception ("Sorry please type one of the choices exactly as seen");
+			throw new Exception ("Sorry wrong credentials,please try again");
 		}	
 		
 	}
@@ -66,7 +71,7 @@ public class AccountFunctions extends CustomerAccountActions implements java.io.
 		System.out.println("Please Enter A Password: ");
 		String userPassword=s.nextLine();
 		
-		System.out.println("What type of account do you want to create: Individual or Joint? ");
+		System.out.println("What type of account do you want to create? Select: Individual OR Joint? ");
 		String accntType=s.nextLine();
 		
 		System.out.println("How much would you like to deposit?: $ ");
@@ -75,28 +80,43 @@ public class AccountFunctions extends CustomerAccountActions implements java.io.
 		
 		customer(userName,userPassword,accntType,accntDepo);
 		
-		System.out.println("Welcome: " + userName + " Please select one of the following: "
-				+ "Withdraw, Deposit, Transer Funds, View Balance, View Personal Info, "
-				+ "View Account");
+		System.out.println("Welcome: " + userName + " Please select a number for one of the following choices: "
+				+ "1-Withdraw, 2-Deposit, 3-Transer Funds, 4-View Balance, 5-View Personal Info, "
+				+ "6-View Account");
 		String accountAct=s.nextLine();
 		
 		switch (accountAct) {
-			case "Withdraw":
+			case "1":
+			try {
 				withdraw(userName);
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
 				break;
-			case "Deposit":
+			case "2":
+			try {
 				deposit(userName);
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
 				break;
-			case "Transfer Funds":
+			case "3":
+			try {
 				transfer(userName);
+			} catch (Exception e) {
+				
+				e.printStackTrace();
+			}
 				break;
-			case "View Balance":
+			case "4":
 				viewBalance(userName);
 				break;
-			case "View Personal Info":
+			case "5":
 				viewPersonalInfo(userName);
 				break;
-			case "View Account":
+			case "6":
 				viewAccount(userName);
 				break;
 		}

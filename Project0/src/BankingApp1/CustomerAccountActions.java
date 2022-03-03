@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class CustomerAccountActions implements java.io.Serializable {
+	OverallLogIn ol=new OverallLogIn();
 	public String name;
 	public String password;
 	public String accountType;
@@ -11,7 +12,6 @@ public class CustomerAccountActions implements java.io.Serializable {
 	//public double balance2;
 	
 	
-		
 	//NEW CUSTOMER METHOD THAT ADDS DATA TO THE MAP
 	public void customer(String name,String password,String accountType,double balance) {
 		CustomerAccountActions a=new CustomerAccountActions();
@@ -33,46 +33,61 @@ public class CustomerAccountActions implements java.io.Serializable {
 	}
 	
 	//WITHDRAW METHOD
-	public void withdraw(String name) {
+	public void withdraw(String name) throws Exception {
 		CustomerAccountActions b=OverallLogIn.map.get(name);
 		Scanner s=new Scanner(System.in);
 		System.out.println("How much would you like to withdraw?");
 		double moneyWithdraw=s.nextDouble();
 		s.nextLine();
 		double moneyWithdrew=b.balance-moneyWithdraw;
-		System.out.println("Your account balance is now: "+moneyWithdrew);
+		System.out.println("Your account balance is now: $"+moneyWithdrew);
+		if (b.balance<0) {
+			throw new Exception ("Sorry you have overdrawn your account.");
+		}
 	}
 	
 	//DEPOSIT METHOD
-	public void deposit(String name) {
+	public void deposit(String name) throws Exception {
 		CustomerAccountActions b=OverallLogIn.map.get(name);
 		Scanner s=new Scanner(System.in);
 		System.out.println("How much would you like to deposit?");
 		double moneyDeposit=s.nextDouble();
 		s.nextLine();
+		if (moneyDeposit>0) {
 		double moneyDeposited=b.balance+moneyDeposit;
-		System.out.println("Your account balance is now: "+moneyDeposited);
+		System.out.println("Your account balance is now: $"+moneyDeposited);	
+		}else {
+			throw new Exception ("Sorry that is an invalid amount.");
+		}
 	}	
 	
 	//TRANSFER METHOD
-	public void transfer(String name) {
+	public void transfer(String name) throws Exception {
 		CustomerAccountActions b=OverallLogIn.map.get(name);
 		Scanner s=new Scanner(System.in);
-		System.out.println("How much would you like to transfer?:$ ");
-		double moneyTransfer=s.nextDouble();
+		System.out.println("How much would you like to transfer?: $");
+		double moneyTransfer=s.nextDouble(); 
 		s.nextLine();
+		if (moneyTransfer>0) {
 		double moneyTransfered=moneyTransfer+b.balance;
 		System.out.println("Your account balance is now: "+moneyTransfered);
+		}else {
+			throw new Exception ("Sorry that is an invalid amount.");
+		}
 	}
 	
 	//VIEW BALANCE METHOD
 	public void viewBalance(String name) {
 		CustomerAccountActions b=OverallLogIn.map.get(name);
 		if (b!=null) {
-		System.out.println("Account Balance: "+b.balance);
+		System.out.println("Account Balance: $"+b.balance);
 		}else {
 			System.out.println("Customer object is null");
 		}
+	}
+	
+	public void reStart() {
+		//ol.main();
 	}
 	
 	//VIEW PERSONAL INFORMATION METHOD
@@ -97,5 +112,6 @@ public class CustomerAccountActions implements java.io.Serializable {
 		public void denyAccount(String name) {
 			System.out.println("You have just denied the account.");
 		}
+		
 	
 }
