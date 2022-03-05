@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 
-public class AccountFunctions extends DatabaseBank {
+public class AccountFunctions  {
 	
 	DatabaseBank p=new DatabaseBank();
 	
@@ -95,13 +95,14 @@ public class AccountFunctions extends DatabaseBank {
 	
 		//Cancel Account Method
 		public void cancelAccount(String name) {
+			DatabaseBank r=new DatabaseBank();
 			System.out.println("Existing Accounts:");
 			DatabaseBank b=DatabaseBank.map.get(name);
 			System.out.println("-----------------------------------------------------------------------------------------");
-			printMap();
+			r.printMap();
 			DatabaseBank p=DatabaseBank.map.remove(name);
 			System.out.println("You have just canceled the account.");
-			printMap();
+			r.printMap();
 		}	
 		
 		//Approve Account Method

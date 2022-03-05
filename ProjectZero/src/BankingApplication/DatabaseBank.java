@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class DatabaseBank {
+public class DatabaseBank implements java.io.Serializable {
 	public String name;
 	public String password;
 	public String accountType;
@@ -30,9 +30,7 @@ public class DatabaseBank {
 		System.out.println(map);
 	}
 	
-//	public void serialize() {
-//		
-//	}
+
 	
 	
 	
