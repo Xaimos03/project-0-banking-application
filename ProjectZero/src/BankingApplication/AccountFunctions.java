@@ -1,10 +1,10 @@
 package BankingApplication;
 
 import java.util.Scanner;
+import java.io.Serializable;
 
 
-
-public class AccountFunctions  {
+public class AccountFunctions implements java.io.Serializable  {
 	
 	DatabaseBank p=new DatabaseBank();
 	

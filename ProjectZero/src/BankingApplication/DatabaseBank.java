@@ -2,7 +2,7 @@ package BankingApplication;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import java.io.Serializable;
 
 public class DatabaseBank implements java.io.Serializable {
 	public String name;
