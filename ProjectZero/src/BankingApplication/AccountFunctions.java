@@ -1,32 +1,20 @@
-package BankingApp1;
-import java.util.HashMap;
-import java.util.Map;
+package BankingApplication;
+
 import java.util.Scanner;
 
-public class CustomerAccountActions implements java.io.Serializable {
-	OverallLogIn ol=new OverallLogIn();
-	public String name;
-	public String password;
-	public String accountType;
-	public double balance;
-	//public double balance2;
+
+
+public class AccountFunctions extends DatabaseBank {
 	
+	DatabaseBank p=new DatabaseBank();
 	
-	//NEW CUSTOMER METHOD THAT ADDS DATA TO THE MAP
-	public void customer(String name,String password,String accountType,double balance) {
-		CustomerAccountActions a=new CustomerAccountActions();
-		a.name=name;
-		a.password=password;
-		a.accountType=accountType;
-		a.balance=balance;
-		OverallLogIn.map.put(name,a);
-	}
-	
+
 	//VIEW ACCOUNT METHOD
 	public void viewAccount (String name) {
-		CustomerAccountActions b=OverallLogIn.map.get(name);
+		DatabaseBank b=DatabaseBank.map.get(name);
 		if (b!=null) {
-		System.out.println("User Name:"+b.name+" User Password:"+b.password+" Account Type:"+b.accountType+" Account Balance:"+ b.balance);
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("User Name: "+b.name+"\nUser Password: "+b.password+"\nAccount Type: "+b.accountType+"\nAccount Balance: "+ b.balance);
 		}else {
 			System.out.println("Customer object is null");
 		}
@@ -34,8 +22,9 @@ public class CustomerAccountActions implements java.io.Serializable {
 	
 	//WITHDRAW METHOD
 	public void withdraw(String name) throws Exception {
-		CustomerAccountActions b=OverallLogIn.map.get(name);
+		DatabaseBank b=DatabaseBank.map.get(name);
 		Scanner s=new Scanner(System.in);
+		System.out.println("-----------------------------------------------------------------------------------------");
 		System.out.println("How much would you like to withdraw?");
 		double moneyWithdraw=s.nextDouble();
 		s.nextLine();
@@ -48,8 +37,9 @@ public class CustomerAccountActions implements java.io.Serializable {
 	
 	//DEPOSIT METHOD
 	public void deposit(String name) throws Exception {
-		CustomerAccountActions b=OverallLogIn.map.get(name);
+		DatabaseBank b=DatabaseBank.map.get(name);
 		Scanner s=new Scanner(System.in);
+		System.out.println("-----------------------------------------------------------------------------------------");
 		System.out.println("How much would you like to deposit?");
 		double moneyDeposit=s.nextDouble();
 		s.nextLine();
@@ -63,14 +53,21 @@ public class CustomerAccountActions implements java.io.Serializable {
 	
 	//TRANSFER METHOD
 	public void transfer(String name) throws Exception {
-		CustomerAccountActions b=OverallLogIn.map.get(name);
+		DatabaseBank b=DatabaseBank.map.get(name);
 		Scanner s=new Scanner(System.in);
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("Who's account do you want to transfer to?: $");
+		String transferAccnt=s.nextLine(); 
+		//s.nextLine();
+		DatabaseBank k=DatabaseBank.map.get(transferAccnt);
 		System.out.println("How much would you like to transfer?: $");
 		double moneyTransfer=s.nextDouble(); 
 		s.nextLine();
 		if (moneyTransfer>0) {
-		double moneyTransfered=moneyTransfer+b.balance;
+		double moneyTransfered=b.balance-moneyTransfer;
+		double moneyRecieved=k.balance+moneyTransfer;
 		System.out.println("Your account balance is now: "+moneyTransfered);
+		System.out.println("The balance for: "+transferAccnt+" before: $"+k.balance+" is now $"+moneyRecieved);
 		}else {
 			throw new Exception ("Sorry that is an invalid amount.");
 		}
@@ -78,29 +75,33 @@ public class CustomerAccountActions implements java.io.Serializable {
 	
 	//VIEW BALANCE METHOD
 	public void viewBalance(String name) {
-		CustomerAccountActions b=OverallLogIn.map.get(name);
+		DatabaseBank b=DatabaseBank.map.get(name);
 		if (b!=null) {
+		System.out.println("-----------------------------------------------------------------------------------------");
 		System.out.println("Account Balance: $"+b.balance);
 		}else {
 			System.out.println("Customer object is null");
 		}
 	}
 	
-	public void reStart() {
-		//ol.main();
-	}
-	
 	//VIEW PERSONAL INFORMATION METHOD
 	public void viewPersonalInfo(String name) {
-		CustomerAccountActions b=OverallLogIn.map.get(name);
-		System.out.println("Your account type is an: " +b.accountType +"User Name: "+b.name+"User Password: " +b.password);
+		DatabaseBank b=DatabaseBank.map.get(name);
+		System.out.println("-----------------------------------------------------------------------------------------");
+		System.out.println("Your account type is an: " +b.accountType+"\nUser Name: " +b.name+"\nUser Password: " +b.password);
 	}
 	
 	//EMPLOYEE ONLY METHODS
 	
 		//Cancel Account Method
 		public void cancelAccount(String name) {
+			System.out.println("Existing Accounts:");
+			DatabaseBank b=DatabaseBank.map.get(name);
+			System.out.println("-----------------------------------------------------------------------------------------");
+			printMap();
+			DatabaseBank p=DatabaseBank.map.remove(name);
 			System.out.println("You have just canceled the account.");
+			printMap();
 		}	
 		
 		//Approve Account Method
@@ -112,6 +113,5 @@ public class CustomerAccountActions implements java.io.Serializable {
 		public void denyAccount(String name) {
 			System.out.println("You have just denied the account.");
 		}
-		
 	
 }
