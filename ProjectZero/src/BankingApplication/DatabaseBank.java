@@ -9,7 +9,7 @@ public class DatabaseBank implements java.io.Serializable {
 	public String password;
 	public String accountType;
 	public double balance;
-	public double balance2;
+	//public double balance2;
 	
 	
 	static Map<String,DatabaseBank> map=new HashMap<String,DatabaseBank>();
@@ -22,12 +22,22 @@ public class DatabaseBank implements java.io.Serializable {
 		a.password=password;
 		a.accountType=accountType;
 		a.balance=balance;
-		DatabaseBank.map.put(name,a);
+		DatabaseBank.map.put(name,a);	
 	}
+	
+	public String toString() {
+		return this.name + this.password +this.accountType +this.balance;
+	}
+	
+	
+	
 	//PRINT MAP
 	public void printMap() {
-		
-		System.out.println(map);
+		//DatabaseBank a=new DatabaseBank();
+		//System.out.println(map.get(a.name)+":"+map.get(a.password)+":"+map.get(a.accountType)+":"+map.get(a.accountType)+":"+map.get(a.balance));
+		//System.out.println(map.getKey(a.name)+":"+map.get(a.password));
+		System.out.println(DatabaseBank.map.toString());
+		//toString();
 	}
 	
 

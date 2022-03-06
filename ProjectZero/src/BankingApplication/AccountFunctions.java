@@ -1,6 +1,8 @@
 package BankingApplication;
 
 import java.util.Scanner;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
@@ -88,7 +90,7 @@ public class AccountFunctions implements java.io.Serializable  {
 	public void viewPersonalInfo(String name) {
 		DatabaseBank b=DatabaseBank.map.get(name);
 		System.out.println("-----------------------------------------------------------------------------------------");
-		System.out.println("Your account type is an: " +b.accountType+"\nUser Name: " +b.name+"\nUser Password: " +b.password);
+		System.out.println("Your account type is: " +b.accountType+"\nUser Name: " +b.name+"\nUser Password: " +b.password);
 	}
 	
 	//EMPLOYEE ONLY METHODS
@@ -107,6 +109,9 @@ public class AccountFunctions implements java.io.Serializable  {
 		
 		//Approve Account Method
 		public void approveAccount(String name) {
+			DatabaseBank r=new DatabaseBank();
+			System.out.println("-----------------------------------------------------------------------------------------");
+			r.printMap();
 			System.out.println("You have just approved the account.");
 		}
 		

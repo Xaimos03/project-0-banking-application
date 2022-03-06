@@ -10,9 +10,9 @@ public class Users  {
 		Scanner s=new Scanner(System.in);
 		
 		System.out.println("--------------------------------------------");
-		System.out.println("Welcome to Bank of I NOM NOM YOUR MONEY, ");
+		System.out.println("        BANK OF NOM NOM YOUR MONEY ");
 		System.out.println("--------------------------------------------");
-		System.out.println("Please select from the following: \n 1= Customer OR 2= Employee ");
+		System.out.println("     Please select from the following: \n         1= Customer OR 2= Employee ");
 
 		String userType=s.nextLine();
 		
@@ -56,7 +56,7 @@ public class Users  {
 		
 		Scanner s=new Scanner(System.in);
 			
-		System.out.println("Enter Your User Name: ");
+		System.out.println("Enter Your Name: ");
 		uName=s.nextLine();
 			
 		//ACCESSES THE MAP: and compare it to the users choice
@@ -107,11 +107,11 @@ public class Users  {
 			
 	}
 		
-		//CUSTOMER REGISTRATION
+	//CUSTOMER REGISTRATION
 	public void customerRegister() {
 		Scanner s=new Scanner(System.in);
 		
-		System.out.println("Please Enter A User Name: ");
+		System.out.println("Please Enter your Name: ");
 		String userName=s.nextLine();
 			
 		System.out.println("Please Enter A Password: ");
@@ -174,15 +174,22 @@ public class Users  {
 			case "7":
 				break;
 		}
-		}while(!accountAct.equals("7"));
-			
+		}while(!accountAct.equals("7"));		
 	}
 	
 	//EMPLOYEE LOGIN
 	public void elogin() throws Exception {
 		Scanner s=new Scanner(System.in);
 		
-		System.out.println("Welcome:Please enter the user name of the customer");
+		System.out.println("Welcome:Please enter your employee ID");
+		String emp=s.nextLine();
+		
+		System.out.println("What type of customer are you helping?: 1-Existing or 2-New");
+		String emp1=s.nextLine();
+		
+		if(emp1.equals("1")) {
+		
+		System.out.println("Please enter the name of the customer");
 		String customer=s.nextLine();
 		
 		AccountFunctions c=new AccountFunctions();
@@ -192,8 +199,8 @@ public class Users  {
 		do {
 		System.out.println("-----------------------------------------------------------------------------------------");
 		System.out.println("What would you like to do?: Please select a number: \n 1-Withdraw\n 2-Deposit\n "
-				+ "3-Transer Funds\n 4-View Balance\n 5-View Personal Info\n"
-				+ " 6-Cancel Account\n 7-Approve Account\n 8-Deny Account");
+				+ "3-Transer Funds\n 4-View Balance\n 5-View Personal Info\n 6-View Account\n"
+				+ " 7-Cancel Account\n 8-Approve Account\n 9-Deny Account\n 10-Exit");
 		accountAct=s.nextLine();
 		
 		switch (accountAct) {
@@ -213,22 +220,100 @@ public class Users  {
 				c.viewPersonalInfo(customer);
 				break;
 			case "6":
+				c.viewAccount(customer);
+				break;	
+			case "7":
 				c.cancelAccount(customer);
 				break;
-			case "7":
+			case "8":
 				c.approveAccount(customer);
 				break;
-			case "8":
+			case "9":
 				c.denyAccount(customer);
 				break;
-			case "9":
+			case "10":
 				break;
 			default:
 				throw new Exception ("Sorry that is not a valid choice");
 		
 		}
 		
-	}while(!accountAct.equals("9"));
-	}	
+		}while(!accountAct.equals("10"));
+		}else {
+			ecustomerRegister();
+		}
+	}
+	
+	// EMPLOYEE CUSTOMER REGISTRATION
+		public void ecustomerRegister() {
+			Scanner s=new Scanner(System.in);
+			
+			System.out.println("Please Enter the Customer's User Name: ");
+			String userName=s.nextLine();
+				
+			System.out.println("Please Enter the Customer's Password: ");
+			String userPassword=s.nextLine();
+				
+			System.out.println("What type of account does the customer want to create? Select: Individual OR Joint? ");
+			String accntType=s.nextLine();
+				
+			System.out.println("How much would they like to deposit?: $ ");
+			double accntDepo=s.nextDouble();
+			s.nextLine();//scanner will bug out if this isn't here.
+			
+			AccountFunctions c=new AccountFunctions();
+			
+			DatabaseBank b=new DatabaseBank();
+			b.map(userName,userPassword,accntType,accntDepo);
+			
+			c.approveAccount(userName);
+			String accountAct;
+			
+			do {
+			System.out.println("-----------------------------------------------------------------------------------------");
+			System.out.println("What would the Customer like to do?: Please select a number for one of the following choices: \n"
+					+ " 1-Withdraw\n 2-Deposit\n 3-Transer Funds\n 4-View Balance\n 5-View Personal Info\n "
+					+ "6-View Account\n 7-Exit");
+			accountAct=s.nextLine();
+				
+			switch (accountAct) {
+				case "1":
+				try {
+					c.withdraw(userName);
+				} catch (Exception e) {
+						
+					e.printStackTrace();
+				}
+				break;
+				case "2":
+				try {
+					c.deposit(userName);
+				} catch (Exception e) {
+						
+					e.printStackTrace();
+				}
+					break;
+				case "3":
+				try {
+					c.transfer(userName);
+				} catch (Exception e) {
+						
+					e.printStackTrace();
+				}
+					break;
+				case "4":
+					c.viewBalance(userName);
+					break;
+				case "5":
+					c.viewPersonalInfo(userName);
+					break;
+				case "6":
+					c.viewAccount(userName);
+					break;
+				case "7":
+					break;
+			}
+			}while(!accountAct.equals("7"));		
+		}
 	
 }
