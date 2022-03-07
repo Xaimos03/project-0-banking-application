@@ -3,7 +3,7 @@ package BankingApplication;
 import java.util.Scanner;
 
 
-public class Users  {
+public class Users implements java.io.Serializable  {
 	
 	
 	public void initLogIn() {
@@ -96,6 +96,7 @@ public class Users  {
 					c.viewAccount(uName);
 					break;
 				case "7":
+					initLogIn();
 					break;
 				default:
 					throw new Exception ("Sorry that is not a valid choice");
@@ -111,7 +112,7 @@ public class Users  {
 	public void customerRegister() {
 		Scanner s=new Scanner(System.in);
 		
-		System.out.println("Please Enter your Name: ");
+		System.out.println("To Register, Please Enter your Name: ");
 		String userName=s.nextLine();
 			
 		System.out.println("Please Enter A Password: ");
@@ -127,7 +128,13 @@ public class Users  {
 		
 		DatabaseBank b=new DatabaseBank();
 		b.map(userName,userPassword,accntType,accntDepo);
+		//Second map for customer approval or denial
+		//b.map2(userName,userPassword,accntType,accntDepo);
+
 		
+		//maybe serialize map here? YES it DOES!!
+		b.sermap(userName);
+		//b.desmap ();
 		String accountAct;
 		
 		do {
@@ -172,6 +179,7 @@ public class Users  {
 				c.viewAccount(userName);
 				break;
 			case "7":
+				initLogIn();
 				break;
 		}
 		}while(!accountAct.equals("7"));		
@@ -179,17 +187,20 @@ public class Users  {
 	
 	//EMPLOYEE LOGIN
 	public void elogin() throws Exception {
+		AccountFunctions n= new AccountFunctions();
 		Scanner s=new Scanner(System.in);
 		
 		System.out.println("Welcome:Please enter your employee ID");
 		String emp=s.nextLine();
 		
-		System.out.println("What type of customer are you helping?: 1-Existing or 2-New");
-		String emp1=s.nextLine();
+//		System.out.println("What type of customer are you helping?: 1-Existing or 2-New");
+//		String emp1=s.nextLine();
 		
-		if(emp1.equals("1")) {
+//		System.out.println("Please enter the name of the customer");
+//		String customer1=s.nextLine();
 		
-		System.out.println("Please enter the name of the customer");
+		
+		System.out.println("Please enter the name of the customer:");
 		String customer=s.nextLine();
 		
 		AccountFunctions c=new AccountFunctions();
@@ -232,6 +243,7 @@ public class Users  {
 				c.denyAccount(customer);
 				break;
 			case "10":
+				initLogIn();
 				break;
 			default:
 				throw new Exception ("Sorry that is not a valid choice");
@@ -239,9 +251,7 @@ public class Users  {
 		}
 		
 		}while(!accountAct.equals("10"));
-		}else {
-			ecustomerRegister();
-		}
+		
 	}
 	
 	// EMPLOYEE CUSTOMER REGISTRATION

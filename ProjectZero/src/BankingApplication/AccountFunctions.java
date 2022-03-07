@@ -31,6 +31,7 @@ public class AccountFunctions implements java.io.Serializable  {
 		double moneyWithdraw=s.nextDouble();
 		s.nextLine();
 		double moneyWithdrew=b.balance-moneyWithdraw;
+//		b.sermap(name);
 		System.out.println("Your account balance is now: $"+moneyWithdrew);
 		if (b.balance<0) {
 			throw new Exception ("Sorry you have overdrawn your account.");
@@ -47,6 +48,7 @@ public class AccountFunctions implements java.io.Serializable  {
 		s.nextLine();
 		if (moneyDeposit>0) {
 		double moneyDeposited=b.balance+moneyDeposit;
+//		b.sermap(name);
 		System.out.println("Your account balance is now: $"+moneyDeposited);	
 		}else {
 			throw new Exception ("Sorry that is an invalid amount.");
@@ -56,11 +58,11 @@ public class AccountFunctions implements java.io.Serializable  {
 	//TRANSFER METHOD
 	public void transfer(String name) throws Exception {
 		DatabaseBank b=DatabaseBank.map.get(name);
+		//b.desmap ();
 		Scanner s=new Scanner(System.in);
 		System.out.println("-----------------------------------------------------------------------------------------");
 		System.out.println("Who's account do you want to transfer to?: $");
 		String transferAccnt=s.nextLine(); 
-		//s.nextLine();
 		DatabaseBank k=DatabaseBank.map.get(transferAccnt);
 		System.out.println("How much would you like to transfer?: $");
 		double moneyTransfer=s.nextDouble(); 
@@ -68,6 +70,8 @@ public class AccountFunctions implements java.io.Serializable  {
 		if (moneyTransfer>0) {
 		double moneyTransfered=b.balance-moneyTransfer;
 		double moneyRecieved=k.balance+moneyTransfer;
+//		b.sermap(name);
+//		b.desmap ();
 		System.out.println("Your account balance is now: "+moneyTransfered);
 		System.out.println("The balance for: "+transferAccnt+" before: $"+k.balance+" is now $"+moneyRecieved);
 		}else {
@@ -103,6 +107,7 @@ public class AccountFunctions implements java.io.Serializable  {
 			System.out.println("-----------------------------------------------------------------------------------------");
 			r.printMap();
 			DatabaseBank p=DatabaseBank.map.remove(name);
+			//b.sermap(name);
 			System.out.println("You have just canceled the account.");
 			r.printMap();
 		}	
@@ -110,13 +115,22 @@ public class AccountFunctions implements java.io.Serializable  {
 		//Approve Account Method
 		public void approveAccount(String name) {
 			DatabaseBank r=new DatabaseBank();
+			Scanner s=new Scanner(System.in);
+			DatabaseBank b=DatabaseBank.map.get(name);
 			System.out.println("-----------------------------------------------------------------------------------------");
-			r.printMap();
-			System.out.println("You have just approved the account.");
+			System.out.println("Do you want to approve."+name+"'s account?: Y or N");
+			String approveAccnt=s.nextLine();
+			if (approveAccnt.equals("Y")) {
+				System.out.println("You have just approved the account.");
+				r.printMap();
+			}else {
+				denyAccount(name);
+			}
 		}
 		
 		//Deny Account Method
 		public void denyAccount(String name) {
+			DatabaseBank s=DatabaseBank.map.remove(name);
 			System.out.println("You have just denied the account.");
 		}
 	
